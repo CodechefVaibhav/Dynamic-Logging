@@ -186,24 +186,39 @@ The project uses the following logging setup:
    ```
     docker-compose up
    ```
+2. Create Tables in database:
+    ```
+    - - Create Department
+    CREATE TABLE table_one (
+    id INT PRIMARY KEY,
+    name VARCHAR
+    );
 
-2. Clone the repository:
+    - - Create Student
+    CREATE TABLE table_two (
+    id INT PRIMARY KEY,
+    name VARCHAR,
+    is_active BOOLEAN
+    );
+    ```   
+
+3. Clone the repository:
    ```
    git clone <repository_url>
    cd starterproject
    ```
 
-3. Build the project using Maven:
+4. Build the project using Maven:
    ```
    mvn clean install
    ```
 
-4. Start the application:
+5. Start the application:
    ```
    mvn spring-boot:run
    ```
 
-5. Test the application using the provided endpoints.
+6. Test the application using the provided endpoints.
 
 ---
 
