@@ -47,7 +47,7 @@ This project demonstrates a Spring Boot application with advanced features, incl
 
 ### **Prerequisites**
 1. Install and configure the following:
-    - Java 11 or later
+    - Java 1.8
     - Maven 3.6+
     - Redis (Standalone mode, default port `6379`)
     - PostgreSQL (Default port `5432`, database: `my_database`, username: `admin`, password: `password`)
