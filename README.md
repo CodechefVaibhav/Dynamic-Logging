@@ -23,7 +23,7 @@ This project demonstrates a Spring Boot application with advanced features, incl
 
 ## **Technology Stack**
 
-- **Java**: 11+
+- **Java**: 1.8
 - **Spring Boot**: 2.7+
 - **Redis**: Standalone setup for caching and Pub/Sub.
 - **PostgreSQL**: Database for persisting entities.
