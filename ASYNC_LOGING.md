@@ -67,6 +67,15 @@ log4j2.contextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSel
 
 Then configure your loggers as usual in the log4j2.xml file.
 
+### Adjust the Thread Pool
+You can fine-tune the asynchronous logging thread pool by customizing these attributes in the logback-spring.xml:
+
+- **queueSize**: Number of log messages that can be held in memory before being processed.
+- **discardingThreshold**: Controls when to discard messages if the queue is full.
+- **maxHistory**: Retains the number of backup files for file logging.
+
+---
+
 ### Benefits of Asynchronous Logging
 
 - **Reduces latency** of the logging operation.

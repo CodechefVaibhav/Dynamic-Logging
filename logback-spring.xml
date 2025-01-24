@@ -1,32 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <springProperty scope="context" name="LOG_LEVEL" source="logging.level.root" defaultValue="INFO" />
-    <property name="LOG_FILE" value="logs/app.log" />
-    <property name="LOG_FILE_MAX_SIZE" value="10MB" />
-    <property name="LOG_FILE_MAX_HISTORY" value="5" />
 
-    <!-- Console Appender -->
+    <!-- Console Appender for synchronous logging -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- File Appender -->
+    <!-- File Appender for synchronous logging -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_FILE}</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>logs/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxFileSize>${LOG_FILE_MAX_SIZE}</maxFileSize>
-            <maxHistory>${LOG_FILE_MAX_HISTORY}</maxHistory>
+        <file>logs/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory> <!-- Retain logs for 30 days -->
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- Root Logger -->
-    <root level="${LOG_LEVEL}">
+    <!-- Async Appender for INFO level -->
+    <appender name="ASYNC_INFO" class="ch.qos.logback.classic.AsyncAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <appender-ref ref="CONSOLE" />
+    </appender>
+
+    <!-- Async File Appender for INFO level -->
+    <appender name="ASYNC_FILE_INFO" class="ch.qos.logback.classic.AsyncAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <appender-ref ref="FILE" />
+    </appender>
+
+    <!-- Synchronous Console Appender for ERROR level -->
+    <appender name="SYNC_ERROR_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Synchronous File Appender for ERROR level -->
+    <appender name="SYNC_ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/app-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/app-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root Logger Configuration -->
+    <root level="INFO">
+        <!-- Asynchronous loggers for INFO -->
+        <appender-ref ref="ASYNC_INFO" />
+        <appender-ref ref="ASYNC_FILE_INFO" />
+
+        <!-- Synchronous loggers for ERROR -->
+        <appender-ref ref="SYNC_ERROR_CONSOLE" />
+        <appender-ref ref="SYNC_ERROR_FILE" />
     </root>
+
 </configuration>
+
+<!--
+1. Separate Appenders for INFO and ERROR Levels
+- ASYNC_INFO: Handles INFO level logs asynchronously for the console.
+- ASYNC_FILE_INFO: Handles INFO level logs asynchronously for file output.
+- SYNC_ERROR_CONSOLE: Synchronously processes ERROR level logs for the console.
+- SYNC_ERROR_FILE: Synchronously processes ERROR level logs for file output.
+
+2. Level Filters
+- Added LevelFilter to each appender to ensure it handles only specific log levels (INFO, ERROR).
+- This ensures no unnecessary overlap between appenders.
+
+3. Separate File for ERROR Logs
+Error logs are written to a dedicated file (logs/app-error.log) for better organization.
+
+4. Root Logger
+Configured to route logs to the appropriate appenders based on the log level.
+
+***Behavior of This Configuration***
+1. Logs with INFO level are written asynchronously to both console and file.
+2. Logs with ERROR level are written synchronously to both console and file.
+3. Other log levels (e.g., DEBUG, WARN) will not be logged unless additional configurations are added.
+-->
