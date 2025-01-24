@@ -1,6 +1,6 @@
 # Dyanmic Logging Configuration
 
-This project demonstrates a Spring Boot application with advanced features, including Redis integration and asynchronous logging configuration. The project is structured to showcase best practices for managing logs and data across a distributed environment.
+This project demonstrates a Spring Boot application with advanced features, including Docker, Redis integration and asynchronous logging configuration. The project is structured to showcase best practices for managing logs and data across a distributed environment.
 
 ---
 
@@ -182,23 +182,28 @@ The project uses the following logging setup:
 
 ## **How to Run the Project**
 
-1. Clone the repository:
+1. Start Docker Image Of Postgres & Redis:
+   ```
+    docker-compose up
+   ```
+
+2. Clone the repository:
    ```
    git clone <repository_url>
    cd starterproject
    ```
 
-2. Build the project using Maven:
+3. Build the project using Maven:
    ```
    mvn clean install
    ```
 
-3. Start the application:
+4. Start the application:
    ```
    mvn spring-boot:run
    ```
 
-4. Test the application using the provided endpoints.
+5. Test the application using the provided endpoints.
 
 ---
 
