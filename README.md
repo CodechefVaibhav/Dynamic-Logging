@@ -1,6 +1,6 @@
 # Dyanmic Logging Configuration
 
-This project demonstrates a Spring Boot application with advanced features, including Redis integration and asynchronous logging configuration. The project is structured to showcase best practices for managing logs and data across a distributed environment.
+This project demonstrates a Spring Boot application with advanced features, including Docker, Redis integration and asynchronous logging configuration. The project is structured to showcase best practices for managing logs and data across a distributed environment.
 
 ---
 
@@ -23,7 +23,7 @@ This project demonstrates a Spring Boot application with advanced features, incl
 
 ## **Technology Stack**
 
-- **Java**: 11+
+- **Java**: 1.8
 - **Spring Boot**: 2.7+
 - **Redis**: Standalone setup for caching and Pub/Sub.
 - **PostgreSQL**: Database for persisting entities.
@@ -47,7 +47,7 @@ This project demonstrates a Spring Boot application with advanced features, incl
 
 ### **Prerequisites**
 1. Install and configure the following:
-    - Java 11 or later
+    - Java 1.8
     - Maven 3.6+
     - Redis (Standalone mode, default port `6379`)
     - PostgreSQL (Default port `5432`, database: `my_database`, username: `admin`, password: `password`)
@@ -182,23 +182,43 @@ The project uses the following logging setup:
 
 ## **How to Run the Project**
 
-1. Clone the repository:
+1. Start Docker Image Of Postgres & Redis:
+   ```
+    docker-compose up
+   ```
+2. Create Tables in database:
+    ```
+    - - Create Department
+    CREATE TABLE table_one (
+    id INT PRIMARY KEY,
+    name VARCHAR
+    );
+
+    - - Create Student
+    CREATE TABLE table_two (
+    id INT PRIMARY KEY,
+    name VARCHAR,
+    is_active BOOLEAN
+    );
+    ```   
+
+3. Clone the repository:
    ```
    git clone <repository_url>
    cd starterproject
    ```
 
-2. Build the project using Maven:
+4. Build the project using Maven:
    ```
    mvn clean install
    ```
 
-3. Start the application:
+5. Start the application:
    ```
    mvn spring-boot:run
    ```
 
-4. Test the application using the provided endpoints.
+6. Test the application using the provided endpoints.
 
 ---
 
