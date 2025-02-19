@@ -5,6 +5,9 @@ import com.kashyap.starterproject.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/departments")
 public class DepartmentController {
@@ -19,7 +22,12 @@ public class DepartmentController {
 
     @GetMapping("/{id}")
     public Department findFromDatabase(@PathVariable int id) {
-        return departmentService.findFromDatabase(id).orElse(null);
+        List<String> s = new ArrayList<>();
+        s.add("one");
+        System.out.println(s);
+        Department d =  departmentService.findFromDatabase(id,s).orElse(null);
+        System.out.println(s);
+        return d;
     }
 
     @PostMapping("/redis")

@@ -2,7 +2,6 @@ package com.kashyap.starterproject.springsubscriber;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.logging.LoggingSystem;
 import org.springframework.boot.logging.LogLevel;

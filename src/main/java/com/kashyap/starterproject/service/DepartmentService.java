@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,9 +28,10 @@ public class DepartmentService {
         return departmentRepository.save(department);
     }
 
-    public Optional<Department> findFromDatabase(int id) {
+    public Optional<Department> findFromDatabase(int id, List<String> s) {
         LOGGER.debug("DEBUG VERSION : Fetching department from database with ID: {}", id);
         LOGGER.info("INFO VERSION : Fetching department from database with ID: {}", id);
+        s.add("two");
         return departmentRepository.findById(id);
     }
 
